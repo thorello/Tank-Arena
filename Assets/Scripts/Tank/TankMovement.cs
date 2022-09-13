@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Photon.Pun;
 
 public class TankMovement : MonoBehaviour
 { 
@@ -15,6 +16,7 @@ private Rigidbody m_Rigidbody;
 private float m_MovementInputValue;
 private float m_TurnInputValue;
 private float m_OriginalPitch;
+private PhotonView view;
 
 
 private void Awake()
@@ -39,9 +41,9 @@ private void OnDisable()
 
 private void Start()
 {
+    view = GetComponent<PhotonView>();
     m_MovementAxisName = "Vertical" + m_PlayerNumber;
     m_TurnAxisName = "Horizontal" + m_PlayerNumber;
-
     m_OriginalPitch = m_MovementAudio.pitch;
 }
 
@@ -49,10 +51,15 @@ private void Start()
 private void Update()
 {
     // Store the player's input and make sure the audio for the engine is playing.
-    m_MovementInputValue = Input.GetAxis(m_MovementAxisName);
-    m_TurnInputValue = Input.GetAxis(m_TurnAxisName);
+    if (view.IsMine)
+    {
+        m_MovementInputValue = Input.GetAxis(m_MovementAxisName);
+        m_TurnInputValue = Input.GetAxis(m_TurnAxisName);
+        EngineAudio();
+    }
 
-    EngineAudio();
+   
+
 }
 
 
