@@ -48,7 +48,9 @@ public class TankShooting : MonoBehaviour
 
             if (m_CurrentLaunchForce >= m_MaxLaunchForce && !m_Fired){
                 m_CurrentLaunchForce = m_MaxLaunchForce;
-                Fire();
+                //Fire();
+                view.RPC("Fire", RpcTarget.All);
+
             } 
             else if (Input.GetMouseButtonDown(0)){
                 m_Fired = false;
@@ -63,12 +65,13 @@ public class TankShooting : MonoBehaviour
 
             }
             else if (Input.GetMouseButtonUp(0) && !m_Fired){
-                Fire();
+                view.RPC("Fire", RpcTarget.All);
+                //Fire();
             }
         }
     }
 
-
+    [PunRPC]
     private void Fire()
     {
         m_Fired = true;
