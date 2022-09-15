@@ -56,7 +56,16 @@ private void Update()
         m_MovementInputValue = Input.GetAxis(m_MovementAxisName);
         m_TurnInputValue = Input.GetAxis(m_TurnAxisName);
         EngineAudio();
+        
     }
+
+    if (!view.IsMine)
+    {
+        Camera camera = transform.parent.GetChild(1).GetComponent<Camera>();
+        camera.enabled = false;        
+    }
+
+    
 
    
 
