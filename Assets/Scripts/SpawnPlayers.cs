@@ -5,18 +5,22 @@ using Photon.Pun;
 
 public class SpawnPlayers : MonoBehaviour
 {
-
     public GameObject playerPrefab;
-    public GameObject playerSpawnPrefab;
+
+    private float xPos;
+    private float zPos;
     // Start is called before the first frame update
     void Start()
     {
-        PhotonNetwork.Instantiate(playerPrefab.name, playerSpawnPrefab.transform.position, Quaternion.identity);
+        xPos = Random.Range(-40, 40);
+        zPos = Random.Range(-40, 40);
+        PhotonNetwork.Instantiate(playerPrefab.name, new Vector3(xPos, 0, zPos), Quaternion.identity);
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

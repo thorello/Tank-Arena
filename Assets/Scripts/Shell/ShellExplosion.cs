@@ -4,6 +4,7 @@ public class ShellExplosion : MonoBehaviour
 {
     public ParticleSystem m_ExplosionParticles;
     public AudioSource m_ExplosionAudio;
+    private bool played = false;
 
 
     private void Start()
@@ -17,11 +18,13 @@ public class ShellExplosion : MonoBehaviour
         if (target.tag == "Enemy")
             Destroy(target);
 
-        m_ExplosionParticles.transform.parent = null;
-        m_ExplosionParticles.Play();
-        m_ExplosionAudio.Play();
-        ParticleSystem.MainModule mainModule = m_ExplosionParticles.main;
-        Destroy(m_ExplosionParticles.gameObject, m_ExplosionParticles.main.duration);
+        if (played == false)
+        {
+            m_ExplosionParticles.Play();
+            m_ExplosionAudio.Play();
+            ParticleSystem.MainModule mainModule = m_ExplosionParticles.main;
+            played = true;
+        }
 
         gameObject.GetComponent<MeshRenderer>().enabled = false;
         gameObject.GetComponent<Rigidbody>().isKinematic = true;
