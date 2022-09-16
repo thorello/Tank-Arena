@@ -16,7 +16,6 @@ public class TankMovement : MonoBehaviour
     private float m_TurnInputValue;
     private PhotonView view;
 
-
     private void Awake()
     {
         m_Rigidbody = GetComponent<Rigidbody>();
