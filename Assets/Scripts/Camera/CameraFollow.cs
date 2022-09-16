@@ -11,14 +11,14 @@ public class CameraFollow : MonoBehaviour
 
     //public float smoothSpeed = 0.1f;
 
-   
 
 
 
-    public void Update()    {
-        
-        transform.position = Vector3.Lerp(transform.position, target.position, pLerp);
-        transform.rotation = Quaternion.Lerp(transform.rotation, target.rotation, rLerp);
+
+    public void FixedUpdate()
+    {
+        transform.position = Vector3.Slerp(transform.position, target.position, pLerp);
+        transform.rotation = Quaternion.Slerp(transform.rotation, target.rotation, rLerp);
     }
 }
 

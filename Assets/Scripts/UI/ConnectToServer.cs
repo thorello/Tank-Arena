@@ -10,14 +10,10 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
 
     public TextMeshProUGUI tentandoConectarText;
     // Start is called before the first frame update
-    void Start()
-    {
-
-        
-    }
 
     public override void OnConnectedToMaster()
     {
+
         PhotonNetwork.JoinLobby();
     }
 
@@ -26,18 +22,21 @@ public class ConnectToServer : MonoBehaviourPunCallbacks
         SceneManager.LoadScene("Lobby");
     }
 
-    public void Connect(){
 
+    public void Connect()
+    {
 
-
-        PhotonNetwork.ConnectUsingSettings();  
+        PhotonNetwork.ConnectUsingSettings();
         tentandoConectarText.text = "Tentando conectar ao servidor";
-        if(PhotonNetwork.IsConnected){            
-             Debug.Log("Conectado");
-        } else{
-            Debug.Log("Sem Conexão");
+        if (PhotonNetwork.IsConnected)
+        {
+            tentandoConectarText.text = "Carregando";
+        }
+        else
+        {
+            tentandoConectarText.text = "Falha na Conexão";
         }
     }
-     
+
 
 }

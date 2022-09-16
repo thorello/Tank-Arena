@@ -2,107 +2,102 @@
 using Photon.Pun;
 
 public class TankMovement : MonoBehaviour
-{ 
-public int m_PlayerNumber = 1;
-public float m_Speed = 12f;
-public float m_TurnSpeed = 180f;
-public AudioSource m_MovementAudio;
-public AudioClip m_EngineIdling;
-public AudioClip m_EngineDriving;
-
-private string m_MovementAxisName;
-private string m_TurnAxisName;
-private Rigidbody m_Rigidbody;
-private float m_MovementInputValue;
-private float m_TurnInputValue;
-private float m_OriginalPitch;
-private PhotonView view;
-
-
-private void Awake()
 {
-    m_Rigidbody = GetComponent<Rigidbody>();
-}
+    public float m_Speed = 12f;
+    public float m_TurnSpeed = 180f;
+    public AudioSource m_MovementAudio;
+    public AudioClip m_EngineIdling;
+    public AudioClip m_EngineDriving;
+
+    private string m_MovementAxisName;
+    private string m_TurnAxisName;
+    private Rigidbody m_Rigidbody;
+    private float m_MovementInputValue;
+    private float m_TurnInputValue;
+    private PhotonView view;
 
 
-private void OnEnable()
-{
-    m_Rigidbody.isKinematic = false;
-    m_MovementInputValue = 0f;
-    m_TurnInputValue = 0f;
-}
-
-
-private void OnDisable()
-{
-    m_Rigidbody.isKinematic = true;
-}
-
-
-private void Start()
-{
-    view = GetComponent<PhotonView>();
-    m_MovementAxisName = "Vertical" + m_PlayerNumber;
-    m_TurnAxisName = "Horizontal" + m_PlayerNumber;
-    m_OriginalPitch = m_MovementAudio.pitch;
-}
-
-
-private void Update()
-{
-    // Store the player's input and make sure the audio for the engine is playing.
-    if (view.IsMine)
+    private void Awake()
     {
-        m_MovementInputValue = Input.GetAxis(m_MovementAxisName);
-        m_TurnInputValue = Input.GetAxis(m_TurnAxisName);
-        EngineAudio();
-        
+        m_Rigidbody = GetComponent<Rigidbody>();
     }
 
-    if (!view.IsMine)
+
+    private void OnEnable()
     {
-        Camera camera = transform.parent.GetChild(1).GetComponent<Camera>();
-        camera.enabled = false;        
+        m_Rigidbody.isKinematic = false;
+        m_MovementInputValue = 0f;
+        m_TurnInputValue = 0f;
     }
 
-    
 
-   
-
-}
-
-
-private void EngineAudio()
-{
-    // Play the correct audio clip based on whether or not the tank is moving and what audio is currently playing.
-
-    if (Mathf.Abs(m_MovementInputValue) < 0.1f )
+    private void OnDisable()
     {
-        if (m_MovementAudio.clip == m_EngineDriving)
+        m_Rigidbody.isKinematic = true;
+    }
+
+
+    private void Start()
+    {
+        view = GetComponent<PhotonView>();
+        m_MovementAxisName = "Vertical";
+        m_TurnAxisName = "Horizontal";
+    }
+
+    private void EngineAudio()
+    {
+        // Play the correct audio clip based on whether or not the tank is moving and what audio is currently playing.
+
+        if (Mathf.Abs(m_MovementInputValue) < 0.1f)
         {
-            m_MovementAudio.clip = m_EngineIdling;
-            m_MovementAudio.Play();
-        }
-    }
-    else
-    {
-        if (Mathf.Abs(m_MovementInputValue) > 0.1f)
-        {
-            if (m_MovementAudio.clip == m_EngineIdling)
+            if (m_MovementAudio.clip == m_EngineDriving)
             {
-                m_MovementAudio.clip = m_EngineDriving;
+                m_MovementAudio.clip = m_EngineIdling;
                 m_MovementAudio.Play();
             }
         }
+        else
+        {
+            if (Mathf.Abs(m_MovementInputValue) > 0.1f)
+            {
+                if (m_MovementAudio.clip == m_EngineIdling)
+                {
+                    m_MovementAudio.clip = m_EngineDriving;
+                    m_MovementAudio.Play();
+                }
+            }
+        }
     }
-}
 
 
     void FixedUpdate()
     {
-        // Move and turn the tank.
+        // Store the player's input and make sure the audio for the engine is playing.
+        if (view.IsMine)
+        {
+            m_MovementInputValue = Input.GetAxis(m_MovementAxisName);
+
+            if (m_MovementInputValue >= 0)
+            {
+                m_TurnInputValue = Input.GetAxis(m_TurnAxisName);
+            }
+            else
+            {
+                m_TurnInputValue = Input.GetAxis(m_TurnAxisName) * -1;
+            }
+
+            EngineAudio();
+        }
+
+        if (!view.IsMine)
+        {
+            Camera camera = transform.parent.GetChild(1).GetComponent<Camera>();
+            camera.enabled = false;
+        }
+
         Move();
         Turn();
+
     }
 
 

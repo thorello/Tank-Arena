@@ -5,23 +5,24 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
-    public int m_NumRoundsToWin = 5;        
-    public float m_StartDelay = 3f;         
-    public float m_EndDelay = 3f;   
-    public Text m_MessageText;              
-    public GameObject m_TankPrefab;         
-    public TankManager[] m_Tanks;           
+    public int m_NumRoundsToWin = 5;
+    public float m_StartDelay = 3f;
+    public float m_EndDelay = 3f;
+    public Text m_MessageText;
+    public GameObject m_TankPrefab;
+    public TankManager[] m_Tanks;
 
 
-    private int m_RoundNumber;              
-    private WaitForSeconds m_StartWait;     
-    private WaitForSeconds m_EndWait;       
-/*    private TankManager m_RoundWinner;
-    private TankManager m_GameWinner;       
-*/
+    private int m_RoundNumber;
+    private WaitForSeconds m_StartWait;
+    private WaitForSeconds m_EndWait;
+    /*    private TankManager m_RoundWinner;
+        private TankManager m_GameWinner;       
+    */
 
     private void Start()
     {
+        Screen.SetResolution(1200, 600, false);
         m_StartWait = new WaitForSeconds(m_StartDelay);
         m_EndWait = new WaitForSeconds(m_EndDelay);
 
@@ -47,15 +48,16 @@ public class GameManager : MonoBehaviour
         yield return StartCoroutine(RoundPlaying());
         yield return StartCoroutine(RoundEnding());
 
-/*        if (m_GameWinner != null)
-        {
-            SceneManager.LoadScene(0);
-        }
-        else
-        {
-            StartCoroutine(GameLoop());
-        }
-*/    }
+        /*        if (m_GameWinner != null)
+                {
+                    SceneManager.LoadScene(0);
+                }
+                else
+                {
+                    StartCoroutine(GameLoop());
+                }
+        */
+    }
 
 
     private IEnumerator RoundStarting()
@@ -89,51 +91,51 @@ public class GameManager : MonoBehaviour
         return numTanksLeft <= 1;
     }
 
-/*
-    private TankManager GetRoundWinner()
-    {
-        for (int i = 0; i < m_Tanks.Length; i++)
+    /*
+        private TankManager GetRoundWinner()
         {
-            if (m_Tanks[i].m_Instance.activeSelf)
-                return m_Tanks[i];
+            for (int i = 0; i < m_Tanks.Length; i++)
+            {
+                if (m_Tanks[i].m_Instance.activeSelf)
+                    return m_Tanks[i];
+            }
+
+            return null;
         }
 
-        return null;
-    }
 
-
-    private TankManager GetGameWinner()
-    {
-        for (int i = 0; i < m_Tanks.Length; i++)
+        private TankManager GetGameWinner()
         {
-            if (m_Tanks[i].m_Wins == m_NumRoundsToWin)
-                return m_Tanks[i];
+            for (int i = 0; i < m_Tanks.Length; i++)
+            {
+                if (m_Tanks[i].m_Wins == m_NumRoundsToWin)
+                    return m_Tanks[i];
+            }
+
+            return null;
         }
 
-        return null;
-    }
 
-
-    private string EndMessage()
-    {
-        string message = "DRAW!";
-
-        if (m_RoundWinner != null)
-            message = m_RoundWinner.m_ColoredPlayerText + " WINS THE ROUND!";
-
-        message += "\n\n\n\n";
-
-        for (int i = 0; i < m_Tanks.Length; i++)
+        private string EndMessage()
         {
-            message += m_Tanks[i].m_ColoredPlayerText + ": " + m_Tanks[i].m_Wins + " WINS\n";
+            string message = "DRAW!";
+
+            if (m_RoundWinner != null)
+                message = m_RoundWinner.m_ColoredPlayerText + " WINS THE ROUND!";
+
+            message += "\n\n\n\n";
+
+            for (int i = 0; i < m_Tanks.Length; i++)
+            {
+                message += m_Tanks[i].m_ColoredPlayerText + ": " + m_Tanks[i].m_Wins + " WINS\n";
+            }
+
+            if (m_GameWinner != null)
+                message = m_GameWinner.m_ColoredPlayerText + " WINS THE GAME!";
+
+            return message;
         }
-
-        if (m_GameWinner != null)
-            message = m_GameWinner.m_ColoredPlayerText + " WINS THE GAME!";
-
-        return message;
-    }
-*/
+    */
 
     private void ResetAllTanks()
     {
