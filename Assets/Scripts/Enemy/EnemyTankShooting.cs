@@ -11,7 +11,7 @@ public class EnemyTankShooting : MonoBehaviour
     public AudioClip m_FireClip;
     private string m_FireButton;
     public float launchForce;
-    public float cooldown = 1;
+    private float cooldown = 0.5f;
     private float cooldownTimer;
 
 

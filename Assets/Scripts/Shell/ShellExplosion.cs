@@ -14,9 +14,12 @@ public class ShellExplosion : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+
         GameObject target = other.gameObject;
         if (target.tag == "Enemy")
-            Destroy(target);
+        {
+            Destroy(target.transform.parent.gameObject);
+        }
 
         if (played == false)
         {
